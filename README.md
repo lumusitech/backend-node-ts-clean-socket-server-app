@@ -1,4 +1,6 @@
-# Node with Typescript - Socket Server - TS-node
+# Node with Typescript - Socket Server - TS-node - Tickets app (Waiting Queue)
+
+This project integrate Websockets with REST API for update tickets queue using WS after creation of a ticket with a POST request.
 
 after clone, run:
 
@@ -29,3 +31,7 @@ pnpm dev
      "build": "rimraf ./dist && tsc",
      "start": "npm run build && node dist/app.js"
    ```
+
+## Dependencies
+
+[WS](https://www.npmjs.com/package/ws): This is a simple to use, blazing fast, and thoroughly tested WebSocket client and server implementation.
