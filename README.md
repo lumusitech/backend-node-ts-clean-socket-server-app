@@ -1,14 +1,31 @@
-# Rest Project + TypeScript
+# Node with Typescript - Socket Server - TS-node
 
-Este proyecto previamente inicializado tiene todo lo necesario para trabajar con TypeScript, Express y Rest.
+after clone, run:
 
-Cada paso de su configuración ya se ha realizado previamente en el curso, por lo que solo es necesario clonar el proyecto y comenzar a trabajar.
+```sh
+pnpm i
+docker compose up -d
+pnpm dev
+```
 
+## This project was created with this steps
 
-## Instalación
+1. Install TypeScript and more dependencies
 
-1. Clonar .env.template a .env y configurar las variables de entorno
-2. Ejecutar `npm install` para instalar las dependencias
-3. En caso de necesitar base de datos, configurar el docker-compose.yml y ejecutar `docker-compose up -d` para levantar los servicios deseados.
-4. Ejecutar `npm run dev` para levantar el proyecto en modo desarrollo
+   ```sh
+   pnpm i -D typescript @types/node ts-node-dev rimraf
+   ```
 
+2. init TypeScript config file
+
+   ```sh
+   pnpm exec tsc --init --outDir dist/ --rootDir src
+   ```
+
+3. scripts for dev, build and start ([more info about TS-NODE here](https://www.npmjs.com/package/ts-node-dev))
+
+   ```sh
+     "dev": "tsnd --respawn --clear src/app.ts",
+     "build": "rimraf ./dist && tsc",
+     "start": "npm run build && node dist/app.js"
+   ```
