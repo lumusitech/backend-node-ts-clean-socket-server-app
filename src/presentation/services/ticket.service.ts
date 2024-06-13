@@ -1,17 +1,20 @@
 import { UuidAdapter } from "../../config/uuid.adapter";
 import type { Ticket } from "../../domain/interfaces/ticket";
+import { WssService } from "./wss.service";
 
 export class TicketService {
   public tickets: Ticket[] = [
-    { id: UuidAdapter.v4(), number: 1, createdAt: new Date(), done: false },
-    { id: UuidAdapter.v4(), number: 2, createdAt: new Date(), done: false },
-    { id: UuidAdapter.v4(), number: 3, createdAt: new Date(), done: false },
-    { id: UuidAdapter.v4(), number: 4, createdAt: new Date(), done: false },
-    { id: UuidAdapter.v4(), number: 5, createdAt: new Date(), done: false },
-    { id: UuidAdapter.v4(), number: 6, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 1, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 2, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 3, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 4, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 5, createdAt: new Date(), done: false },
+    // { id: UuidAdapter.v4(), number: 6, createdAt: new Date(), done: false },
   ]
 
   private readonly workingOnTickets: Ticket[] = []
+
+  constructor(private readonly wssService = WssService.instance) { }
 
   public get lastWorkingOnTickets(): Ticket[] {
     return this.workingOnTickets.splice(0, 4)
@@ -33,7 +36,7 @@ export class TicketService {
       done: false
     }
     this.tickets.push(ticket)
-    // TODO: connect this creation to WSS
+    this.onTicketNumberChanged()
 
     return ticket
   }
@@ -51,6 +54,7 @@ export class TicketService {
     this.workingOnTickets.unshift({ ...ticket })
 
     // TODO: connect this creation to WSS
+    this.onTicketNumberChanged()
 
     return { status: "success", ticket }
   }
@@ -69,4 +73,7 @@ export class TicketService {
     return { status: "success" }
   }
 
+  private onTicketNumberChanged() {
+    this.wssService.sendMessage("on-ticket-count-changed", this.pendingTickets.length)
+  }
 }
