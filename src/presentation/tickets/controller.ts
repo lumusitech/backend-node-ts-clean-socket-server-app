@@ -34,6 +34,8 @@ export class TicketController {
   }
 
   public workingOn = (req: Request, res: Response) => {
+    console.log(this.ticketService.lastWorkingOnTickets);
     res.json(this.ticketService.lastWorkingOnTickets)
+
   }
 }
