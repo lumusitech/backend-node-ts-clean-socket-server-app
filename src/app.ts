@@ -13,12 +13,14 @@ import { WssService } from './presentation/services/wss.service';
 function main() {
 
   const server = new Server({
-    port: envs.PORT,
-    routes: AppRoutes.routes,
+    port: envs.PORT
   });
 
   const httpServer = createServer(server.app);
   WssService.initWss({ server: httpServer });
+
+  // after initialization of wss service we can set routes to work with it and api rest routes
+  server.setRoutes(AppRoutes.routes)
 
   httpServer.listen(envs.PORT, () => {
     console.log(`Server running on port ${envs.PORT}`);
